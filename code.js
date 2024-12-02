@@ -8,9 +8,10 @@ function areIsomorphic(graph1, graph2) {
 }
 
 function permute(matrix, graph, lo) {
-    if (matricesEqual(matrix, toAdjMatrix(graph))) return true;
+    
     let vertices = graph[0];
     if (vertices.length === 0) return false;
+    if (matricesEqual(matrix, toAdjMatrix(graph))) return true;
     if (lo >= vertices.length - 1) return false;
     for (let i = lo; i < vertices.length; i++) {
         if (i != lo) {
@@ -34,6 +35,7 @@ function swap(arr, lo, i) {
 
 function toAdjMatrix(graph) {
     let [vertices, edges] = graph;
+    if (vertices.length === 0) return [];
     let adjMatrix = Array.from({ length: vertices.length }, () => Array(vertices.length).fill(0));
     edges.forEach(([v1, v2]) => {
         adjMatrix[vertices.indexOf(v1)][vertices.indexOf(v2)] = 1;
