@@ -1,12 +1,12 @@
 const fs = require('fs');
 const jsc = require('jsverify');
 
-
+// Load the code.js file
 eval(fs.readFileSync('./code.js') + '');
 
 // Test cases
 const pentagon = [
-     // Vertices
+    // Vertices
     [0, 1, 2, 3, 4], 
     // Edges
     [      
@@ -110,8 +110,8 @@ function runTests() {
     // Loop through each test case
     testCases.forEach(({ graph1, graph2, expected }, index) => {
         
-      // Run the 'are_isomorphic' function
-        const result = are_isomorphic(graph1, graph2);
+      // Run the 'areIsomorphic' function
+        const result = areIsomorphic(graph1, graph2);  // <-- Updated function name here
 
         // Check if the result matches the expected outcome
         if (result !== expected) {
