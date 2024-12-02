@@ -10,7 +10,7 @@ on:
 
 jobs:
   test:
-    runs-on: node12 # You can choose the appropriate Node.js version
+    runs-on: node12
 
     steps:
     - name: Checkout code
@@ -19,7 +19,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '12'  # Set to the Node.js version you're using
+        node-version: '12'
 
     - name: Install dependencies
       run: npm install
