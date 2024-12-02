@@ -16,7 +16,7 @@ the function and run automatically when you commit through a GitHub action.
 
 What is the worst-case big $\Theta$ time complexity of your algorithm?
 
-
+There's a constant time to check if the graphs are empty or not. The toAdjMatrix function convert the graph into an adjaceny matrix where n is the verticies in the graph. Making the adj matrix takes $O(n^2)$ time because it iterates over all the edges. The worst case for permute is if it checks all the possible permutations in the second graph, for $n$ vertices there would be $n!$ permutations. So, each recursive call check the permutation to match the adj matrix in graph1. Then for each permutation the matricesEqual function is called and compares the two matrices $n*n$. This takes $O(n^2)$ time. The worst time would be $O(n^2)$ for making the adjaceny matrix, $O(n!*n^2)$ for the permutations and comparing the matrices. So, $\Theta(n!*n^2)$ would be the worst time complexity for this algorithm.
 
 
 https://stackoverflow.com/questions/13694201/find-out-if-graph-is-isomorphic-java
