@@ -1,4 +1,4 @@
-# Graph Isomorphism
+I used sean wils# Graph Isomorphism
 
 Devise an algorithm to determine whether two given graphs are isomorphic or not.
 It takes two graphs as an argument and returns `true` or `false`, depending on
@@ -23,5 +23,5 @@ https://stackoverflow.com/questions/13694201/find-out-if-graph-is-isomorphic-jav
 This video was super helpful:
 https://youtu.be/UCle3Smvh1s?feature=shared
 https://www.baeldung.com/cs/adjacency-matrix-list-complexity
-|
+I used sean wilsons test code for mine. https://github.com/COSC3020/detecting-isomorphism-swilso59-1/blob/main/code.test.js
 I certify that I have listed all sources used to complete this exercise, including the use of any Large Language Models. All of the work is my own, except where stated otherwise. I am aware that plagiarism carries severe penalties and that if plagiarism is suspected, charges may be filed against me without prior notice
