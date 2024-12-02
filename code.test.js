@@ -1,7 +1,7 @@
 // code.test.js
 
 const jsc = require('jsverify');
-const { areIsomorphic } = require('./graphUtils');
+const { areIsomorphic } = require('./code');
 
 // Helper function to generate random graph
 function generateRandomGraph() {
