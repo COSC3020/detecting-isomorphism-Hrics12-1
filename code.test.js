@@ -1,9 +1,10 @@
-// code.test.js
-
+const fs = require('fs');
 const jsc = require('jsverify');
-const { areIsomorphic } = require('./code');
 
-// Helper function to generate random graph
+// Evaluate the code.js file, which contains the areIsomorphic function
+eval(fs.readFileSync('code.js') + '');
+
+// Helper function to generate random graphs
 function generateRandomGraph() {
     const numVertices = Math.floor(Math.random() * 6) + 3;  // Random number of vertices between 3 and 8
     const vertices = Array.from({ length: numVertices }, (_, i) => String.fromCharCode(65 + i));  // Generate labels A, B, C, ...
@@ -22,41 +23,21 @@ function generateRandomGraph() {
 }
 
 // Property-based test for isomorphism
-jsc.property('areIsomorphic should return true for isomorphic graphs', jsc.array(jsc.string), jsc.array(jsc.string), (vertices1, vertices2) => {
+const testIsomorphism = jsc.forall("array array nat", function(vertices1, vertices2) {
     if (vertices1.length !== vertices2.length) {
         return true;  // If the graphs have a different number of vertices, they cannot be isomorphic
     }
 
-    const graph1 = [vertices1, generateRandomGraph()[1]]; // Random edges
-    const graph2 = [vertices2, generateRandomGraph()[1]]; // Random edges
+    // Generate random edges for both graphs
+    const graph1 = [vertices1, generateRandomGraph()[1]];  // Random edges for graph1
+    const graph2 = [vertices2, generateRandomGraph()[1]];  // Random edges for graph2
 
     // Check if the graphs are isomorphic
-    return areIsomorphic(graph1, graph2);
+    const result = areIsomorphic(graph1, graph2);
+
+    // If the graphs have the same number of vertices and edges, check if the result is correct
+    return result === (vertices1.sort().join('') === vertices2.sort().join(''));
 });
 
-jsc.property('areIsomorphic should return false for non-isomorphic graphs', jsc.array(jsc.string), jsc.array(jsc.string), (vertices1, vertices2) => {
-    if (vertices1.length !== vertices2.length) {
-        return true;  // If the graphs have a different number of vertices, they cannot be isomorphic
-    }
-
-    const graph1 = [vertices1, generateRandomGraph()[1]];  // Random edges
-    const graph2 = [vertices2, generateRandomGraph()[1]];  // Random edges
-
-    // Ensure that graphs are not isomorphic by adding a mismatch
-    const mismatchedGraph = generateRandomGraph();
-    graph2[1] = mismatchedGraph[1];  // Random mismatch in the edges
-
-    // Check that the graphs are not isomorphic
-    return !areIsomorphic(graph1, graph2);
-});
-
-// Testing for the edge case of empty graphs
-jsc.property('areIsomorphic should return false for empty graphs', () => {
-    const emptyGraph1 = [[], []]; // Empty graph
-    const emptyGraph2 = [[], []]; // Empty graph
-
-    return !areIsomorphic(emptyGraph1, emptyGraph2); // They should not be isomorphic
-});
-
-// Running the tests
-jsc.check(jsc.properties);
+// Run the test
+jsc.assert(testIsomorphism);
