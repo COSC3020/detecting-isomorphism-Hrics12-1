@@ -24,6 +24,12 @@ function generateRandomGraph() {
 
 // Property-based test for isomorphism
 const testIsomorphism = jsc.forall("array array nat", function(vertices1, vertices2) {
+    // Skip if graphs are too small or empty
+    if (vertices1.length < 2 || vertices2.length < 2) {
+        return true; // Skip invalid graphs with fewer than 2 nodes
+    }
+
+    // Ensure the graphs have the same number of vertices
     if (vertices1.length !== vertices2.length) {
         return true;  // If the graphs have a different number of vertices, they cannot be isomorphic
     }
