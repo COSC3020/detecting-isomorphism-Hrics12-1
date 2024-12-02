@@ -1,49 +1,62 @@
-const fs = require('fs');
+// code.test.js
+
 const jsc = require('jsverify');
+const { areIsomorphic } = require('./graphUtils');
 
-// Load the function from code.js
-eval(fs.readFileSync('code.js') + '');
+// Helper function to generate random graph
+function generateRandomGraph() {
+    const numVertices = Math.floor(Math.random() * 6) + 3;  // Random number of vertices between 3 and 8
+    const vertices = Array.from({ length: numVertices }, (_, i) => String.fromCharCode(65 + i));  // Generate labels A, B, C, ...
 
-// Property-based test for graph isomorphism
-const testGraphIsomorphism = jsc.forall("array array nat", function(graph1, graph2) {
-    // Ensure graph1 and graph2 follow the correct structure: [vertices, edges]
-    if (!Array.isArray(graph1) || !Array.isArray(graph2)) {
-        return true; // Skip invalid graphs that are not arrays
-    }
-
-    const isValidGraph = (graph) => {
-        // Ensure the graph has two elements: vertices and edges
-        if (graph.length !== 2) return false;
-
-        const [vertices, edges] = graph;
-
-        // Ensure vertices is an array and has at least one element
-        if (!Array.isArray(vertices) || vertices.length === 0) return false;
-
-        // Ensure edges is an array of pairs, where each pair has two elements
-        if (!Array.isArray(edges) || edges.some(edge => !Array.isArray(edge) || edge.length !== 2)) {
-            return false;
+    // Generate a list of random edges
+    const edges = [];
+    for (let i = 0; i < numVertices; i++) {
+        for (let j = i + 1; j < numVertices; j++) {
+            if (Math.random() > 0.5) {  // Randomly decide whether to add an edge
+                edges.push([vertices[i], vertices[j]]);
+            }
         }
-
-        return true;
-    };
-
-    // Skip the test if any of the graphs is invalid
-    if (!isValidGraph(graph1) || !isValidGraph(graph2)) {
-        return true;
     }
 
-    // Ensure that both graphs have the same number of vertices
-    if (graph1[0].length !== graph2[0].length) {
-        return false; // If the graphs have different numbers of vertices, they cannot be isomorphic
+    return [vertices, edges];
+}
+
+// Property-based test for isomorphism
+jsc.property('areIsomorphic should return true for isomorphic graphs', jsc.array(jsc.string), jsc.array(jsc.string), (vertices1, vertices2) => {
+    if (vertices1.length !== vertices2.length) {
+        return true;  // If the graphs have a different number of vertices, they cannot be isomorphic
     }
 
-    // Run the areIsomorphic function
-    const result = areIsomorphic(graph1, graph2);
+    const graph1 = [vertices1, generateRandomGraph()[1]]; // Random edges
+    const graph2 = [vertices2, generateRandomGraph()[1]]; // Random edges
 
-    // The result should be true or false (isomorphism check)
-    return typeof result === 'boolean';
+    // Check if the graphs are isomorphic
+    return areIsomorphic(graph1, graph2);
 });
 
-// Run the test
-jsc.assert(testGraphIsomorphism);
+jsc.property('areIsomorphic should return false for non-isomorphic graphs', jsc.array(jsc.string), jsc.array(jsc.string), (vertices1, vertices2) => {
+    if (vertices1.length !== vertices2.length) {
+        return true;  // If the graphs have a different number of vertices, they cannot be isomorphic
+    }
+
+    const graph1 = [vertices1, generateRandomGraph()[1]];  // Random edges
+    const graph2 = [vertices2, generateRandomGraph()[1]];  // Random edges
+
+    // Ensure that graphs are not isomorphic by adding a mismatch
+    const mismatchedGraph = generateRandomGraph();
+    graph2[1] = mismatchedGraph[1];  // Random mismatch in the edges
+
+    // Check that the graphs are not isomorphic
+    return !areIsomorphic(graph1, graph2);
+});
+
+// Testing for the edge case of empty graphs
+jsc.property('areIsomorphic should return false for empty graphs', () => {
+    const emptyGraph1 = [[], []]; // Empty graph
+    const emptyGraph2 = [[], []]; // Empty graph
+
+    return !areIsomorphic(emptyGraph1, emptyGraph2); // They should not be isomorphic
+});
+
+// Running the tests
+jsc.check(jsc.properties);
