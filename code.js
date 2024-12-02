@@ -1,7 +1,7 @@
 function areIsomorphic(graph1, graph2) {
 
     if (graph1.length === 0||graph2.length === 0){
-    retunr false;
+    return false;
     }   //should probably check for empty graphs
     
     if (graph1.length !== graph2.length) {
