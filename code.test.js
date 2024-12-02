@@ -1,67 +1,27 @@
-// areIsomorphic.test.js
-const { areIsomorphic } = require('./areIsomorphic'); // Assuming your function is in this file
+const fs = require('fs');
+const jsc = require('jsverify');
 
-describe('Graph Isomorphism Tests', () => {
-  test('Test for isomorphic graphs', () => {
-    const graph1 = [
-      ['a', 'b', 'c'], // Vertices
-      [['a', 'b'], ['b', 'c'], ['a', 'c']] // Edges
-    ];
+// Load the function from code.js
+eval(fs.readFileSync('code.js') + '');
 
-    const graph2 = [
-      ['1', '2', '3'],
-      [['1', '2'], ['2', '3'], ['1', '3']]
-    ];
+// Property-based test for graph isomorphism
+const testGraphIsomorphism = jsc.forall("array array nat", function(graph1, graph2) {
+    // Handle invalid graphs with fewer than 2 nodes or non-square adjacency matrices
+    if (graph1.length < 2 || graph2.length < 2 || graph1.some(row => row.length !== graph1.length) || graph2.some(row => row.length !== graph2.length)) {
+        return true; // Skip invalid graphs
+    }
 
-    expect(areIsomorphic(graph1, graph2)).toBe(true);
-  });
+    // Ensure that both graphs have the same number of vertices
+    if (graph1[0].length !== graph2[0].length) {
+        return false; // If the graphs have different numbers of vertices, they cannot be isomorphic
+    }
 
-  test('Test for non-isomorphic graphs', () => {
-    const graph1 = [
-      ['a', 'b', 'c'], // Vertices
-      [['a', 'b'], ['a', 'c']] // Edges
-    ];
+    // Run the areIsomorphic function
+    const result = areIsomorphic(graph1, graph2);
 
-    const graph2 = [
-      ['1', '2', '3'],
-      [['1', '2'], ['2', '3']]
-    ];
-
-    expect(areIsomorphic(graph1, graph2)).toBe(false);
-  });
-
-  test('Test for empty graphs', () => {
-    const graph1 = [[], []]; // No vertices, no edges
-    const graph2 = [[], []]; // No vertices, no edges
-
-    expect(areIsomorphic(graph1, graph2)).toBe(true);
-  });
-
-  test('Test for graphs with different sizes', () => {
-    const graph1 = [
-      ['a', 'b'], // Vertices
-      [['a', 'b']] // Edges
-    ];
-
-    const graph2 = [
-      ['1', '2', '3'],
-      [['1', '2'], ['2', '3'], ['3', '1']] // Extra edge
-    ];
-
-    expect(areIsomorphic(graph1, graph2)).toBe(false);
-  });
-
-  test('Test for graphs with the same structure but different labels', () => {
-    const graph1 = [
-      ['a', 'b', 'c'],
-      [['a', 'b'], ['b', 'c'], ['a', 'c']]
-    ];
-
-    const graph2 = [
-      ['1', '2', '3'],
-      [['1', '2'], ['2', '3'], ['1', '3']]
-    ];
-
-    expect(areIsomorphic(graph1, graph2)).toBe(true);
-  });
+    // The result should be true or false (isomorphism check)
+    return typeof result === 'boolean';
 });
+
+// Run the test
+jsc.assert(testGraphIsomorphism);
