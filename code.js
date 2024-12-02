@@ -9,7 +9,7 @@ function areIsomorphic(graph1, graph2) {
 
 function permute(matrix, graph, lo) {
     if (matricesEqual(matrix, toAdjMatrix(graph))) return true;
-    let vertices = graph[0];
+    let vertices = graph[];
     if (lo >= vertices.length - 1) return false;
     for (let i = lo; i < vertices.length; i++) {
         if (i != lo) {
