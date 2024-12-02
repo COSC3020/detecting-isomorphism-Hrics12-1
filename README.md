@@ -22,3 +22,6 @@ There's a constant time to check if the graphs are empty or not. The toAdjMatrix
 https://stackoverflow.com/questions/13694201/find-out-if-graph-is-isomorphic-java
 This video was super helpful:
 https://youtu.be/UCle3Smvh1s?feature=shared
+https://www.baeldung.com/cs/adjacency-matrix-list-complexity
+|
+I certify that I have listed all sources used to complete this exercise, including the use of any Large Language Models. All of the work is my own, except where stated otherwise. I am aware that plagiarism carries severe penalties and that if plagiarism is suspected, charges may be filed against me without prior notice
