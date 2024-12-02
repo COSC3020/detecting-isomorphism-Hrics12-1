@@ -1,3 +1,15 @@
-"scripts": {
-  "test": "node code.test.js"
+{
+  "name": "detecting-isomorphic-Hrics12-1",
+  "version": "1.0.0",
+  "description": "A description of your project",
+  "main": "index.js",
+  "scripts": {
+    "test": "node code.test.js"
+  },
+  "dependencies": {
+    "jsverify": "^0.7.0" 
+  },
+  "devDependencies": {},
+  "author": "",
+  "license": "ISC"
 }
