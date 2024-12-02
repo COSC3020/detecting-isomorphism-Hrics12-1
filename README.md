@@ -15,3 +15,10 @@ the function and run automatically when you commit through a GitHub action.
 ## Runtime Analysis
 
 What is the worst-case big $\Theta$ time complexity of your algorithm?
+
+
+
+
+https://stackoverflow.com/questions/13694201/find-out-if-graph-is-isomorphic-java
+This video was super helpful:
+https://youtu.be/UCle3Smvh1s?feature=shared
