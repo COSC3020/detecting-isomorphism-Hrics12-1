@@ -7,7 +7,6 @@ function areIsomorphic(graph1, graph2) {
     return permute(matrix, graph2, 0);
 }
 
-
 function permute(matrix, graph, lo) {
     if (matricesEqual(matrix, toAdjMatrix(graph))) return true;
     let vertices = graph[0];
