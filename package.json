@@ -1,5 +1,3 @@
-{
-  "scripts": {
-    "test": "jest"
-  }
+"scripts": {
+  "test": "node code.test.js"
 }
